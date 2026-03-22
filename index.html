@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara ou Coroa Premium</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h1 class="title">Cara ou Coroa</h1>
+        
+        <div class="input-group">
+            <label for="userChoice" class="label">Sua Aposta:</label>
+            <select id="userChoice" class="select-field">
+                <option value="Cara">Cara</option>
+                <option value="Coroa">Coroa</option>
+            </select>
+        </div>
+
+        <div id="coinGraphic" class="coin-display">
+            <span>?</span>
+        </div>
+
+        <button id="playButton" class="btn-primary">Jogar Moeda!</button>
+
+        <div class="stats">
+            Vitórias: <span id="winCount" class="win-count">0</span>
+        </div>
+        
+        <p class="result-message" id="resultMessage"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
