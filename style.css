@@ -1,0 +1,148 @@
+/*
+ * style.css
+ *
+ * Estilos para o aplicativo Cara ou Coroa.
+ * Utiliza variáveis CSS para facilitar a manutenção e padronização de cores.
+ * Design moderno com foco em legibilidade e experiência do usuário.
+ */
+
+/* Variáveis CSS para cores e fontes */
+:root {
+    --color-primary: #1a73e8; /* Azul primário */
+    --color-secondary: #fbbc05; /* Amarelo da moeda */
+    --color-background: #f0f2f5; /* Fundo claro */
+    --color-text-dark: #333; /* Texto escuro */
+    --color-text-light: #fff; /* Texto claro */
+    --color-shadow: rgba(0, 0, 0, 0.1); /* Sombra suave */
+    --font-family-sans: 'Roboto', sans-serif;
+}
+
+/* Reset básico e configurações globais */
+body {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--color-text-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container principal (cartão) */
+.card {
+    background: var(--color-text-light);
+    padding: 2.5rem; /* Aumenta o padding */
+    border-radius: 1rem; /* Borda mais arredondada */
+    box-shadow: 0 10px 25px var(--color-shadow);
+    text-align: center;
+    width: 100%;
+    max-width: 400px; /* Limite de largura para desktop */
+    margin: 1rem; /* Margem para telas pequenas */
+}
+
+.title {
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    font-size: 2.2rem; /* Título maior */
+    font-weight: 700;
+}
+
+/* Grupo de input (rótulo e select) */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-text-dark);
+}
+
+.select-field {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: var(--color-text-light);
+    font-size: 1rem;
+    appearance: none; /* Remove o estilo padrão do navegador */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    cursor: pointer;
+}
+
+.select-field:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+/* Display da moeda */
+.coin-display {
+    width: 150px; /* Moeda maior */
+    height: 150px;
+    background: var(--color-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 2.5rem; /* Texto maior na moeda */
+    border: 6px solid #e3a008; /* Borda mais forte */
+    margin: 2rem auto; /* Mais espaçamento */
+    color: var(--color-text-light);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    /* Animação de rotação para a moeda */
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Botão primário */
+.btn-primary {
+    width: 100%;
+    padding: 1rem 1.5rem; /* Botão maior */
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1669d2; /* Escurece no hover */
+}
+
+.btn-primary:active {
+    transform: translateY(1px); /* Pequeno efeito de clique */
+}
+
+/* Estatísticas de vitórias */
+.stats {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.win-count {
+    color: var(--color-primary);
+    font-size: 1.4rem;
+}
+
+/* Mensagem de resultado */
+.result-message {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    min-height: 1.5rem; /* Garante que a área não encolha */
+    color: var(--color-text-dark);
+}
