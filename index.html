@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Coin Flip - Cara ou Coroa</title>
+    <style>
+        
+        /* Definição de Cores */
+        :root {
+            --bg-pink: #fdf2f8; /* Rosa bem claro para o fundo */
+            --primary-pink: #ec4899; /* Rosa vibrante para botões e detalhes */
+            --hover-pink: #db2777; /* Rosa mais escuro para o efeito hover */
+            --coin-gold: #fbbf24; /* Amarelo ouro para a moeda */
+            --coin-border: #f59e0b; /* Laranja escuro para a borda da moeda */
+            --text-dark: #1f2937; /* Cinza escuro para textos */
+        }
+
+        /* Configuração do Corpo da Página */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            background-color: var(--bg-pink); 
+            color: var(--text-dark);
+        }
+
+        /* Container Principal (Card) */
+        .game-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.1); /* Sombra rosa suave */
+            text-align: center;
+            backdrop-filter: blur(5px); /* Efeito de vidro embaçado */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h2 { color: var(--primary-pink); margin-top: 0; }
+
+        /* Estilização da Moeda 3D */
+        .coin-wrapper {
+            perspective: 1000px; 
+            margin: 30px auto;
+            width: 120px;
+            height: 120px;
+        }
+
+        .coin {
+            width: 100%;
+            height: 100%;
+            background-color: var(--coin-gold);
+            border-radius: 50%;
+            position: relative;
+            transform-style: preserve-3d; 
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); /* Animação suave */
+            border: 6px solid var(--coin-border);
+            box-shadow: 0 6px 0 rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Classe para Engatilhar a Animação via JS */
+        .coin.flip {
+            animation: flipAnimation 2s ease-out forwards; /* Roda a animação de giro */
+        }
+
+        /*  Animação de Giro (3 voltas completas) */
+        @keyframes flipAnimation {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(1080deg); } /* 3 * 360 graus */
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #fbcfe8; /* Borda rosa clara */
+            background-color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus { border-color: var(--primary-pink); }
+
+        /* Estilo do Botão Principal */
+        .btn-flip {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: var(--primary-pink);
+            color: white;
+            border: none;
+            border-radius: 50px; /* Botão arredondado */
+            box-shadow: 0 4px 14px rgba(236, 72, 153, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-flip:hover {
+            background-color: var(--hover-pink);
+            transform: translateY(-2px); /* Efeito de flutuar ao passar o mouse */
+        }
+
+        .btn-flip:active { transform: translateY(1px); } /* Efeito de clique */
+        
+        .btn-flip:disabled { background-color: #f9a8d4; cursor: not-allowed; box-shadow: none; }
+
+        /* Estilo do Placar */
+        .score-board {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            border-top: 2px solid #fbcfe8;
+            padding-top: 15px;
+        }
+
+        .score-number { color: var(--primary-pink); font-weight: bold; font-size: 1.3rem; }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h2>🩷 Pink Coin Flip</h2>
+
+        <div style="margin-bottom: 10px;">
+            <label for="userChoice" style="margin-right: 10px; font-weight: bold;">Sua Aposta:</label>
+            <select id="userChoice">
+                <option value="Cara">Cara</option>
+                <option value="Coroa">Coroa</option>
+            </select>
+        </div>
+
+        <div class="coin-wrapper">
+            <div id="coin" class="coin">?</div>
+        </div>
+
+        <button id="flipBtn" class="btn-flip" onclick="playGame()">Jogar Moeda!</button>
+
+        <div class="score-board">
+            <p id="feedbackText">Faça sua aposta e jogue!</p>
+            <p>Vitórias: <span id="wins" class="score-number">0</span></p>
+        </div>
+    </div>
+
+    <script>
+
+        let wins = 0; // Variável para controlar o placar
+
+        function playGame() {
+            // 1. Captura os elementos do HTML necessários
+            const userChoice = document.getElementById('userChoice').value; // Aposta do usuário
+            const coin = document.getElementById('coin'); // O elemento visual da moeda
+            const winsDisplay = document.getElementById('wins'); // Onde mostra as vitórias
+            const flipBtn = document.getElementById('flipBtn'); // O botão (para desativar)
+            const feedbackText = document.getElementById('feedbackText'); // Texto de feedback
+
+            // 2. Sorteio (Lógica do Jogo)
+            // Math.random() gera um número entre 0 e 1. Se for < 0.5, é Cara, senão Coroa.
+            const result = Math.random() < 0.5 ? "Cara" : "Coroa";
+            
+            // 3. Inicia a Animação e Estados
+            feedbackText.textContent = "Girando...";
+            feedbackText.style.color = "var(--text-dark)";
+            coin.textContent = "";
+            flipBtn.disabled = true; 
+            
+            // Animação de giro 3D
+            coin.classList.add('flip');
+
+            // 4. Delay para o Resultado 
+            setTimeout(() => {
+                // Remove a classe de animação para resetar o estado visual
+                coin.classList.remove('flip'); 
+                
+                // Exibe o resultado final
+                coin.textContent = result; 
+                
+                // Liga o botão novamente
+                flipBtn.disabled = false; 
+
+                // Vitória
+                if(result === userChoice) {
+                    wins++; // Incrementa o placar
+                    winsDisplay.textContent = wins; // Atualiza o HTML
+                    feedbackText.textContent = `🎉 Parabéns! Caiu ${result}!`;
+                    feedbackText.style.color = "var(--primary-pink)"; // Texto rosa para vitória
+                } else {
+                    feedbackText.textContent = `😢 Não foi dessa vez. Caiu ${result}.`;
+                    feedbackText.style.color = "#71717a"; // Texto cinza para derrota
+                }
+            }, 2000); // 2000ms = 2 segundos de animação
+        }
+    </script>
+</body>
+</html>
